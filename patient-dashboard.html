@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serenity Hospital | Patient Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #eef3f7;
+      color: #1a2c3e;
+    }
+    .navbar {
+      background: #ffffffdd;
+      backdrop-filter: blur(12px);
+      background-color: rgba(255,255,255,0.94);
+      box-shadow: 0 6px 20px rgba(0,20,40,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(46,125,109,0.2);
+    }
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo i {
+      font-size: 2rem;
+      color: #0f6b5e;
+    }
+    .logo h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f6e63, #0a4b41);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #1e4a4a;
+      transition: 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: #0e7c6b;
+      border-bottom: 2px solid #0e7c6b;
+      padding-bottom: 4px;
+    }
+    .dashboard-header {
+      background: linear-gradient(120deg, #cbe5e0, #bdd6d1);
+      border-radius: 2rem;
+      padding: 1.5rem 2rem;
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .welcome h2 {
+      font-size: 1.8rem;
+      color: #0b3b35;
+    }
+    .badge {
+      background: white;
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-weight: 500;
+      color: #1f6e63;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.05);
+    }
+    .stat-icon {
+      background: #e0f0ec;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #1f6e63;
+    }
+    .stat-info h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 800px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      border: 1px solid #deede8;
+    }
+    .card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #1f6e63;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .appointment-item, .prescription-item, .visit-item {
+      border-bottom: 1px solid #eef2f5;
+      padding: 0.8rem 0;
+    }
+    .appointment-item:last-child, .prescription-item:last-child {
+      border: none;
+    }
+    .status {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: #fff2cf;
+      color: #b56a00;
+    }
+    .status.confirmed {
+      background: #dff0e6;
+      color: #1f6e63;
+    }
+    .btn-sm {
+      background: #eef3f7;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .btn-sm:hover {
+      background: #d0e2e2;
+    }
+    .profile-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.6rem 0;
+    }
+    footer {
+      background: #1f3e3a;
+      color: #cfe6e1;
+      margin-top: 2rem;
+      padding: 2rem 0;
+      border-radius: 2rem 2rem 0 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container nav-flex">
+    <div class="logo">
+      <i class="fas fa-hospital-user"></i>
+      <h1>Serenity Hospital</h1>
+    </div>
+    <div class="nav-links">
+      <a href="#" id="linkChecker">Symptom Checker</a>
+      <a href="#" id="linkAdmission">Admission</a>
+      <a href="#" id="linkDoctors">Doctors</a>
+      <a href="#" class="active">Dashboard</a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Dashboard header -->
+  <div class="dashboard-header">
+    <div class="welcome">
+      <h2><i class="fas fa-user-circle"></i> Hello, Sarah Johnson</h2>
+      <p>Patient ID: SER-2458 | Member since 2023</p>
+    </div>
+    <div class="badge"><i class="fas fa-shield-alt"></i> Health profile active</div>
+  </div>
+
+  <!-- Stats summary -->
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-icon"><i class="fas fa-calendar-check"></i></div><div class="stat-info"><h3>4</h3><p>Upcoming visits</p></div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="fas fa-pills"></i></div><div class="stat-info"><h3>3</h3><p>Active prescriptions</p></div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="fas fa-file-alt"></i></div><div class="stat-info"><h3>6</h3><p>Past records</p></div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="fas fa-heartbeat"></i></div><div class="stat-info"><h3>98/64</h3><p>Last BP reading</p></div></div>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- LEFT COLUMN: Appointments + Prescriptions -->
+    <div>
+      <div class="card">
+        <h3><i class="fas fa-calendar-week"></i> Upcoming Appointments</h3>
+        <div id="appointmentsList">
+          <div class="appointment-item"><strong>Dr. Meera Kapoor</strong> (Cardiology)<br>📅 April 12, 2025 · 10:30 AM <span class="status confirmed">Confirmed</span><div style="margin-top: 5px;"><button class="btn-sm reschedule-btn" data-doc="Dr. Meera Kapoor">Reschedule</button></div></div>
+          <div class="appointment-item"><strong>Dr. Arjun Reddy</strong> (Pulmonology)<br>📅 April 18, 2025 · 02:00 PM <span class="status">Pending</span><div><button class="btn-sm reschedule-btn" data-doc="Dr. Arjun Reddy">Reschedule</button></div></div>
+        </div>
+        <button id="newApptBtn" style="margin-top: 12px; background:#1f6e63; color:white; border:none; padding: 8px; border-radius: 40px; width:100%; cursor:pointer;"><i class="fas fa-plus"></i> Request New Appointment</button>
+      </div>
+      <div class="card" style="margin-top: 1.5rem;">
+        <h3><i class="fas fa-prescription-bottle"></i> Active Prescriptions</h3>
+        <div class="prescription-item"><strong>Atorvastatin 10mg</strong> – 1 tablet nightly (Cardiology) <br><span style="font-size:0.75rem;">Refills left: 2</span> <button class="btn-sm" style="float:right;">Request Refill</button></div>
+        <div class="prescription-item"><strong>Montelukast 10mg</strong> – 1 tablet before bed (Pulmonology) <br><span style="font-size:0.75rem;">Refills left: 1</span> <button class="btn-sm" style="float:right;">Request Refill</button></div>
+        <div class="prescription-item"><strong>Paracetamol 500mg</strong> – as needed for pain <br><span style="font-size:0.75rem;">OTC</span> <button class="btn-sm" style="float:right;">Renew</button></div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Medical Records + Profile -->
+    <div>
+      <div class="card">
+        <h3><i class="fas fa-folder-medical"></i> Recent Medical Records</h3>
+        <div class="visit-item"><i class="fas fa-file-pdf"></i> <strong>Blood Report</strong> – 15 Mar 2025 <button class="btn-sm" style="float:right;">View</button></div>
+        <div class="visit-item"><i class="fas fa-x-ray"></i> <strong>Chest X-Ray</strong> – 02 Mar 2025 <button class="btn-sm" style="float:right;">Download</button></div>
+        <div class="visit-item"><i class="fas fa-heart"></i> <strong>ECG Report</strong> – 18 Feb 2025 <button class="btn-sm" style="float:right;">View</button></div>
+        <div class="visit-item"><i class="fas fa-stethoscope"></i> <strong>Consultation note</strong> – Dr. Kapoor, 10 Feb 2025 <button class="btn-sm" style="float:right;">Open</button></div>
+      </div>
+      <div class="card" style="margin-top: 1.5rem;">
+        <h3><i class="fas fa-id-card"></i> Personal & Emergency Info</h3>
+        <div class="profile-row"><span>📞 Phone:</span> <span>+91 98765 01234</span></div>
+        <div class="profile-row"><span>📧 Email:</span> <span>sarah.j@example.com</span></div>
+        <div class="profile-row"><span>🆘 Emergency contact:</span> <span>Michael Johnson (spouse) - 9988776655</span></div>
+        <div class="profile-row"><span>🩸 Blood group:</span> <span>O+</span></div>
+        <div class="profile-row"><span>📋 Allergies:</span> <span>Penicillin, dust mites</span></div>
+        <button id="editProfileBtn" class="btn-sm" style="margin-top: 12px; width:100%;"><i class="fas fa-edit"></i> Update Profile</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <p><i class="fas fa-copyright"></i> 2025 Serenity Hospital – Your health companion. Dashboard data is for demonstration.</p>
+  </div>
+</footer>
+
+<script>
+  // Simple interactive messages for demo
+  document.getElementById("newApptBtn")?.addEventListener("click", () => {
+    alert("📞 Appointment request sent. Our front desk will call you within 2 hours.");
+  });
+  document.getElementById("editProfileBtn")?.addEventListener("click", () => {
+    alert("✏️ Profile update feature: In full version you can edit contact, emergency contacts, and allergies.");
+  });
+  const rescheduleBtns = document.querySelectorAll(".reschedule-btn");
+  rescheduleBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const docName = btn.getAttribute("data-doc");
+      alert(`Reschedule request for appointment with ${docName}. We will contact you shortly.`);
+    });
+  });
+  // Navigation to other pages (must match filenames)
+  function navigateTo(page) {
+    window.location.href = page;
+  }
+  document.getElementById("linkChecker")?.addEventListener("click", (e) => { e.preventDefault(); navigateTo("index.html"); });
+  document.getElementById("linkAdmission")?.addEventListener("click", (e) => { e.preventDefault(); navigateTo("admission-contact.html"); });
+  document.getElementById("linkDoctors")?.addEventListener("click", (e) => { e.preventDefault(); navigateTo("doctors.html"); });
+</script>
+</body>
+</html>

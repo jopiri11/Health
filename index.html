@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serenity Hospital | AI Symptom Checker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #e9f0f9 0%, #dce5f2 100%);
+      color: #1a2c3e;
+      line-height: 1.5;
+    }
+    .navbar {
+      background: #ffffffdd;
+      backdrop-filter: blur(12px);
+      background-color: rgba(255,255,255,0.92);
+      box-shadow: 0 6px 20px rgba(0,20,40,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(46,125,109,0.2);
+    }
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo i {
+      font-size: 2rem;
+      color: #0f6b5e;
+    }
+    .logo h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f6e63, #0a4b41);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #1e4a4a;
+      transition: 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: #0e7c6b;
+      border-bottom: 2px solid #0e7c6b;
+      padding-bottom: 4px;
+    }
+    .hero {
+      background: linear-gradient(120deg, #d1e7e3, #c2dbdf);
+      margin-top: 1rem;
+      border-radius: 2rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .hero h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0b3b35;
+    }
+    .checker-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    @media (max-width: 780px) {
+      .checker-grid { grid-template-columns: 1fr; }
+      .nav-flex { flex-direction: column; gap: 12px; }
+    }
+    .card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 2rem;
+      padding: 1.8rem;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+      border: 1px solid rgba(80,130,120,0.2);
+    }
+    .card h3 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1e4f49;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .symptom-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .symptom-check {
+      background: #f1f7fc;
+      border-radius: 60px;
+      padding: 0.5rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .symptom-check:hover {
+      background: #e2f0f0;
+      transform: translateY(-2px);
+    }
+    .symptom-check input {
+      width: 1.2rem;
+      height: 1.2rem;
+      accent-color: #2c8b7a;
+      cursor: pointer;
+    }
+    .free-text-area {
+      margin: 1rem 0;
+    }
+    .free-text-area label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .free-text-area textarea {
+      width: 100%;
+      border-radius: 1rem;
+      border: 1px solid #cbdde6;
+      padding: 12px;
+      font-family: inherit;
+      resize: vertical;
+    }
+    .extracted-badges {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: #2c8b7a;
+    }
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    .btn {
+      border: none;
+      background: #eef3f7;
+      padding: 0.8rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-primary {
+      background: #1f6e63;
+      color: white;
+      box-shadow: 0 4px 8px rgba(28,92,80,0.2);
+    }
+    .btn-primary:hover {
+      background: #0f5a4f;
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: #e2e9ef;
+      color: #2c5a52;
+    }
+    .results-area {
+      background: #fafefd;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-top: 1rem;
+      border-left: 6px solid #1f6e63;
+    }
+    .admission-tag {
+      display: inline-block;
+      background: #ffecb3;
+      color: #a55d00;
+      border-radius: 30px;
+      padding: 0.3rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .disclaimer {
+      font-size: 0.75rem;
+      color: #6a7e89;
+      background: #f3f9fd;
+      padding: 0.8rem;
+      border-radius: 1rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    footer {
+      background: #1f3e3a;
+      color: #cfe6e1;
+      margin-top: 3rem;
+      padding: 2rem 0;
+      border-radius: 2rem 2rem 0 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container nav-flex">
+    <div class="logo">
+      <i class="fas fa-hospital-user"></i>
+      <h1>Serenity Hospital</h1>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="active">Symptom Checker</a>
+      <a href="admission-contact.html">Admission</a>
+      <a href="doctors.html">Doctors</a>
+      <a href="patient-dashboard.html">Dashboard</a>
+      <a href="login.html" id="loginLink">Login</a>
+    </div>
+  </div>
+</div>
+
+<main class="container">
+  <div class="hero">
+    <h2><i class="fas fa-stethoscope"></i> AI Symptom Checker – Free Text & Checkboxes</h2>
+    <p>Select symptoms below OR type in your own words. We combine both to show possible conditions and admission guidance.</p>
+  </div>
+
+  <div class="checker-grid">
+    <!-- LEFT: symptoms + free text -->
+    <div class="card">
+      <h3><i class="fas fa-notes-medical"></i> 1. Describe your symptoms</h3>
+      <div class="symptom-group" id="symptomsContainer"></div>
+
+      <div class="free-text-area">
+        <label><i class="fas fa-keyboard"></i> Or type any symptoms (e.g., "dizzy, nausea, chest tightness")</label>
+        <textarea id="freeText" rows="2" placeholder="Example: I feel dizzy, have a headache, and my chest feels heavy..."></textarea>
+        <div id="extractedDisplay" class="extracted-badges"></div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" id="checkSymptomsBtn"><i class="fas fa-stethoscope"></i> Check Sickness</button>
+        <button class="btn btn-secondary" id="clearAllBtn"><i class="fas fa-eraser"></i> Clear All</button>
+      </div>
+      <div class="disclaimer">
+        <i class="fas fa-shield-alt"></i> This tool does not replace professional diagnosis. For emergencies, call 911 / 108.
+      </div>
+    </div>
+
+    <!-- RIGHT: results -->
+    <div class="card">
+      <h3><i class="fas fa-clipboard-list"></i> 2. Possible conditions</h3>
+      <div id="resultDisplay" class="results-area">
+        <p>Select symptoms or type free text, then click "Check Sickness".</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p><i class="fas fa-copyright"></i> 2025 Serenity Hospital – Intelligent symptom analysis.</p>
+    <p style="margin-top: 0.5rem;">📍 122 Healing Lane, Wellness City | ☎️ Emergency: +91 1800 234 5678</p>
+  </div>
+</footer>
+
+<script>
+  // ========================
+  // SYMPTOM DATABASE (standard list)
+  // ========================
+  const SYMPTOMS_LIST = [
+    "Fever", "Cough", "Headache", "Shortness of Breath", 
+    "Chest Pain", "Fatigue", "Nausea", "Sore throat",
+    "Body Ache", "Runny Nose", "Loss of Smell", "Dizziness",
+    "Abdominal Pain", "Vomiting", "Rash"
+  ];
+
+  // ========================
+  // DISEASE DATABASE
+  // ========================
+  const DISEASES = [
+    { name: "⚠️ Heart Attack / Angina", symptoms: ["Chest Pain", "Shortness of Breath", "Fatigue"], severity: 5, advice: "🚨 EMERGENCY! Call ambulance immediately.", admission: "Immediate ER admission" },
+    { name: "Pneumonia", symptoms: ["Fever", "Cough", "Shortness of Breath", "Chest Pain", "Fatigue"], severity: 5, advice: "High risk of respiratory infection. Chest X-ray needed.", admission: "Admission strongly recommended" },
+    { name: "COVID-19", symptoms: ["Fever", "Cough", "Shortness of Breath", "Loss of Smell", "Fatigue", "Sore throat"], severity: 4, advice: "Isolate, test immediately. Monitor oxygen levels.", admission: "May require admission if breathing worsens" },
+    { name: "Influenza (Flu)", symptoms: ["Fever", "Cough", "Headache", "Fatigue", "Body Ache", "Sore throat"], severity: 3, advice: "Rest, fluids, antivirals within 48 hours.", admission: "Usually home care; high-risk may need admission" },
+    { name: "Acute Bronchitis", symptoms: ["Cough", "Shortness of Breath", "Fatigue", "Chest Pain"], severity: 2, advice: "Use humidifier, cough suppressants. See doctor if persists >3 weeks.", admission: "Outpatient care" },
+    { name: "Migraine", symptoms: ["Headache", "Nausea", "Dizziness"], severity: 2, advice: "Rest in dark room, hydrate, take prescribed pain relief.", admission: "Home care; ER if severe neurological symptoms" },
+    { name: "Common Cold", symptoms: ["Cough", "Sore throat", "Runny Nose", "Fatigue"], severity: 1, advice: "Rest, fluids, OTC cold medicine.", admission: "No admission needed" },
+    { name: "Allergic Rhinitis", symptoms: ["Runny Nose", "Sore throat", "Headache"], severity: 1, advice: "Antihistamines, avoid allergens.", admission: "Home management" },
+    { name: "Gastroenteritis", symptoms: ["Nausea", "Vomiting", "Abdominal Pain", "Fatigue"], severity: 2, advice: "Hydration, bland diet. Seek care if dehydration.", admission: "Usually home care; IV fluids if severe" }
+  ];
+
+  // ========================
+  // KEYWORD MAPPING (free text → standard symptom)
+  // ========================
+  const keywordMap = {
+    "fever": "Fever", "high temperature": "Fever", "chills": "Fever",
+    "cough": "Cough", "coughing": "Cough", "dry cough": "Cough",
+    "headache": "Headache", "head pain": "Headache",
+    "shortness of breath": "Shortness of Breath", "breathless": "Shortness of Breath", "difficulty breathing": "Shortness of Breath",
+    "chest pain": "Chest Pain", "chest tightness": "Chest Pain",
+    "fatigue": "Fatigue", "tired": "Fatigue", "exhausted": "Fatigue",
+    "nausea": "Nausea", "sick stomach": "Nausea",
+    "sore throat": "Sore throat", "throat pain": "Sore throat",
+    "body ache": "Body Ache", "muscle pain": "Body Ache", "myalgia": "Body Ache",
+    "runny nose": "Runny Nose", "stuffy nose": "Runny Nose",
+    "loss of smell": "Loss of Smell", "anosmia": "Loss of Smell",
+    "dizzy": "Dizziness", "dizziness": "Dizziness", "vertigo": "Dizziness",
+    "abdominal pain": "Abdominal Pain", "stomach pain": "Abdominal Pain", "belly pain": "Abdominal Pain",
+    "vomiting": "Vomiting", "threw up": "Vomiting",
+    "rash": "Rash", "skin rash": "Rash", "hives": "Rash"
+  };
+
+  // Build checkboxes
+  function buildSymptomCheckboxes() {
+    const container = document.getElementById("symptomsContainer");
+    if (!container) return;
+    container.innerHTML = "";
+    SYMPTOMS_LIST.forEach(symptom => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "symptom-check";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.id = `sym_${symptom.replace(/\s/g, '')}`;
+      cb.value = symptom;
+      cb.classList.add("sym-checkbox");
+      const label = document.createElement("label");
+      label.htmlFor = cb.id;
+      label.textContent = symptom;
+      wrapper.appendChild(cb);
+      wrapper.appendChild(label);
+      container.appendChild(wrapper);
+    });
+  }
+
+  function getSelectedFromCheckboxes() {
+    const checkboxes = document.querySelectorAll(".sym-checkbox");
+    const selected = [];
+    checkboxes.forEach(cb => { if (cb.checked) selected.push(cb.value); });
+    return selected;
+  }
+
+  // Extract symptoms from free text
+  function extractSymptomsFromText(text) {
+    const lowerText = text.toLowerCase();
+    const found = new Set();
+    for (let [keyword, symptom] of Object.entries(keywordMap)) {
+      if (lowerText.includes(keyword)) {
+        found.add(symptom);
+      }
+    }
+    return Array.from(found);
+  }
+
+  function updateExtractedDisplay(extracted) {
+    const div = document.getElementById("extractedDisplay");
+    if (extracted.length === 0) {
+      div.innerHTML = "";
+      return;
+    }
+    div.innerHTML = `<i class="fas fa-magic"></i> Extracted from text: ${extracted.map(s => `<span style="background:#d1eae4; padding:2px 8px; border-radius:20px; margin:0 4px;">${s}</span>`).join('')}`;
+  }
+
+  function getAllSymptoms() {
+    const checkboxSymptoms = getSelectedFromCheckboxes();
+    const freeText = document.getElementById("freeText").value;
+    const extracted = extractSymptomsFromText(freeText);
+    updateExtractedDisplay(extracted);
+    const combined = [...new Set([...checkboxSymptoms, ...extracted])];
+    return combined;
+  }
+
+  // Calculate match scores for diseases
+  function calculateMatches(selectedSymptoms) {
+    const selectedSet = new Set(selectedSymptoms);
+    const results = [];
+    for (let disease of DISEASES) {
+      let matchCount = 0;
+      for (let sym of disease.symptoms) {
+        if (selectedSet.has(sym)) matchCount++;
+      }
+      const percentage = Math.round((matchCount / disease.symptoms.length) * 100);
+      results.push({ ...disease, matchPercentage: percentage, matchedCount: matchCount, total: disease.symptoms.length });
+    }
+    results.sort((a,b) => {
+      if (a.matchPercentage !== b.matchPercentage) return b.matchPercentage - a.matchPercentage;
+      return b.severity - a.severity;
+    });
+    return results;
+  }
+
+  function renderResults(selectedSymptoms) {
+    const resultDiv = document.getElementById("resultDisplay");
+    if (!selectedSymptoms || selectedSymptoms.length === 0) {
+      resultDiv.innerHTML = `<div class="results-area"><p>🤔 No symptoms selected or detected. Please select some checkboxes or describe your symptoms in the text box.</p></div>`;
+      return;
+    }
+
+    const matches = calculateMatches(selectedSymptoms);
+    const relevant = matches.filter(m => m.matchPercentage > 0);
+    if (relevant.length === 0) {
+      resultDiv.innerHTML = `<div class="results-area"><p>😷 No matching diseases found. Your symptoms may be uncommon. Please consult a doctor.</p></div>`;
+      return;
+    }
+
+    let html = `<div class="results-area"><div><strong><i class="fas fa-list"></i> Your symptoms (combined):</strong><br/>`;
+    const symptomBadges = selectedSymptoms.map(s => `<span style="background:#e0f0ec; padding:0.2rem 0.7rem; border-radius:20px; margin:2px; display:inline-block;">${s}</span>`).join('');
+    html += `<div style="margin-top:8px;">${symptomBadges}</div></div>`;
+
+    const top = relevant[0];
+    html += `<div style="background:#F4FBF9; border-radius:1rem; padding:1rem; margin:1rem 0;">
+              <h4 style="color:#1f6e63;">📊 Most likely condition:</h4>
+              <div style="font-size:1.3rem; font-weight:700;">${top.name}</div>
+              <div style="margin:8px 0;"><span style="background:#1f6e63; color:white; padding:2px 10px; border-radius:20px;">${top.matchPercentage}% match</span></div>
+              <p><i class="fas fa-comment-medical"></i> ${top.advice}</p>
+              <p><span class="admission-tag"><i class="fas fa-hospital"></i> ${top.admission}</span></p>
+            </div>`;
+
+    if (relevant.length > 1) {
+      html += `<details><summary>🔍 Other possible conditions (${relevant.length-1})</summary><div style="margin-top:10px;">`;
+      for (let i=1; i<relevant.length; i++) {
+        const d = relevant[i];
+        html += `<div style="background:#fafcfb; border-radius:1rem; padding:0.8rem; margin-bottom:8px; border-left:4px solid #cfe9e3;">
+                  <strong>${d.name}</strong> <span style="float:right;">${d.matchPercentage}% match</span><br/>
+                  <span style="font-size:0.85rem;">${d.advice.substring(0,80)}...</span>
+                </div>`;
+      }
+      html += `</div></details>`;
+    }
+    html += `<div class="disclaimer"><i class="fas fa-exclamation-triangle"></i> This is not a medical diagnosis. Always consult a real doctor.</div></div>`;
+    resultDiv.innerHTML = html;
+  }
+
+  function handleCheck() {
+    const allSymptoms = getAllSymptoms();
+    renderResults(allSymptoms);
+  }
+
+  function clearAll() {
+    document.querySelectorAll(".sym-checkbox").forEach(cb => cb.checked = false);
+    document.getElementById("freeText").value = "";
+    document.getElementById("extractedDisplay").innerHTML = "";
+    renderResults([]);
+  }
+
+  // Update login link based on session
+  function updateLoginLink() {
+    const loginLink = document.getElementById('loginLink');
+    if (sessionStorage.getItem('isLoggedIn') === 'true') {
+      loginLink.innerHTML = '<i class="fas fa-user-circle"></i> Dashboard';
+      loginLink.href = 'patient-dashboard.html';
+    } else {
+      loginLink.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+      loginLink.href = 'login.html';
+    }
+  }
+
+  function init() {
+    buildSymptomCheckboxes();
+    document.getElementById("checkSymptomsBtn").addEventListener("click", handleCheck);
+    document.getElementById("clearAllBtn").addEventListener("click", clearAll);
+    renderResults([]);
+    updateLoginLink();
+    // Optional: listen for storage changes (if logged in from another tab)
+    window.addEventListener('storage', updateLoginLink);
+  }
+  document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>

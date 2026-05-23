@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serenity Hospital | Our Doctors & Appointments</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #eef3f7;
+      color: #1a2c3e;
+    }
+    .navbar {
+      background: #ffffffdd;
+      backdrop-filter: blur(12px);
+      background-color: rgba(255,255,255,0.94);
+      box-shadow: 0 6px 20px rgba(0,20,40,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(46,125,109,0.2);
+    }
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo i {
+      font-size: 2rem;
+      color: #0f6b5e;
+    }
+    .logo h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f6e63, #0a4b41);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #1e4a4a;
+      transition: 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: #0e7c6b;
+      border-bottom: 2px solid #0e7c6b;
+      padding-bottom: 4px;
+    }
+    .hero {
+      background: linear-gradient(120deg, #cbe5e0, #bdd6d1);
+      border-radius: 2rem;
+      padding: 2rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .hero h2 {
+      font-size: 2rem;
+      color: #0b3b35;
+    }
+    .search-box {
+      background: white;
+      border-radius: 60px;
+      padding: 5px 15px;
+      display: flex;
+      align-items: center;
+      max-width: 500px;
+      margin: 1rem auto 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .search-box i {
+      color: #7f9e95;
+    }
+    .search-box input {
+      border: none;
+      padding: 12px;
+      width: 100%;
+      font-size: 1rem;
+      outline: none;
+      background: transparent;
+    }
+    .doctor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .doctor-card {
+      background: white;
+      border-radius: 1.8rem;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      transition: 0.2s;
+      border: 1px solid #d4e6e0;
+    }
+    .doctor-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+    }
+    .doc-img {
+      background: linear-gradient(145deg, #cfe9e3, #bddbd4);
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: #1f6e63;
+    }
+    .doc-details {
+      padding: 1.5rem;
+    }
+    .doc-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .doc-specialty {
+      color: #1f6e63;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: inline-block;
+      background: #e0f0ec;
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+    }
+    .doc-bio {
+      color: #4a5d66;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    .btn-book {
+      background: #1f6e63;
+      color: white;
+      border: none;
+      padding: 10px 0;
+      width: 100%;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: 0.2s;
+    }
+    .btn-book:hover {
+      background: #0f5a4f;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: white;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 2rem;
+      padding: 2rem;
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+    .form-group {
+      margin: 1rem 0;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 1rem;
+      border: 1px solid #cbdde6;
+    }
+    footer {
+      background: #1f3e3a;
+      color: #cfe6e1;
+      margin-top: 2.5rem;
+      padding: 2rem 0;
+      border-radius: 2rem 2rem 0 0;
+      text-align: center;
+    }
+    @media (max-width: 700px) {
+      .nav-flex {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container nav-flex">
+    <div class="logo">
+      <i class="fas fa-hospital-user"></i>
+      <h1>Serenity Hospital</h1>
+    </div>
+    <div class="nav-links">
+      <a href="#" id="linkChecker">Symptom Checker</a>
+      <a href="#" id="linkAdmission">Admission & Contact</a>
+      <a href="#" class="active">Our Doctors</a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <h2><i class="fas fa-user-md"></i> Meet Our Specialist Doctors</h2>
+    <p>Expert care across 20+ departments. Book an online consultation or in‑person visit.</p>
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search by name, specialty, or department...">
+    </div>
+  </div>
+
+  <div id="doctorGrid" class="doctor-grid">
+    <!-- doctors injected via JS -->
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <p><i class="fas fa-copyright"></i> 2025 Serenity Hospital – World‑class specialists, compassionate healing.</p>
+  </div>
+</footer>
+
+<!-- Appointment Modal -->
+<div id="appointmentModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h3><i class="fas fa-calendar-plus"></i> Book Appointment</h3>
+    <form id="appointmentForm">
+      <input type="hidden" id="selectedDoctorName">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="patientName" required>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="patientPhone" required>
+      </div>
+      <div class="form-group">
+        <label>Preferred Date</label>
+        <input type="date" id="apptDate" required>
+      </div>
+      <div class="form-group">
+        <label>Time Slot</label>
+        <select id="apptTime">
+          <option>09:00 AM - 10:00 AM</option>
+          <option>10:00 AM - 11:00 AM</option>
+          <option>11:00 AM - 12:00 PM</option>
+          <option>02:00 PM - 03:00 PM</option>
+          <option>03:00 PM - 04:00 PM</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-book" style="margin-top: 10px;">Confirm Booking</button>
+    </form>
+    <div id="bookingMsg" style="margin-top: 12px; color:#1f6e63;"></div>
+  </div>
+</div>
+
+<script>
+  // DOCTOR DATABASE
+  const doctors = [
+    { id: 1, name: "Dr. Meera Kapoor", specialty: "Cardiology", bio: "15+ years in interventional cardiology, heart failure specialist.", icon: "fas fa-heartbeat", dept: "Cardiology" },
+    { id: 2, name: "Dr. Arjun Reddy", specialty: "Pulmonology", bio: "Respiratory medicine & critical care. Asthma, COPD, sleep apnea.", icon: "fas fa-lungs", dept: "Pulmonology" },
+    { id: 3, name: "Dr. Sneha Iyer", specialty: "Neurology", bio: "Stroke, epilepsy, migraine management. Advanced neuro care.", icon: "fas fa-brain", dept: "Neurology" },
+    { id: 4, name: "Dr. Rajat Verma", specialty: "Orthopedics", bio: "Joint replacement, sports injuries, spine surgery.", icon: "fas fa-bone", dept: "Orthopedics" },
+    { id: 5, name: "Dr. Preeti Nair", specialty: "Obstetrics & Gynecology", bio: "High-risk pregnancy, fertility, women's health.", icon: "fas fa-female", dept: "Obstetrics" },
+    { id: 6, name: "Dr. Sameer Thakur", specialty: "Gastroenterology", bio: "Liver diseases, endoscopy, IBS management.", icon: "fas fa-stethoscope", dept: "Gastroenterology" },
+    { id: 7, name: "Dr. Neha Sharma", specialty: "Pediatrics", bio: "Child development, vaccinations, neonatology.", icon: "fas fa-child", dept: "Pediatrics" },
+    { id: 8, name: "Dr. Vikram Seth", specialty: "Oncology", bio: "Medical oncology, chemotherapy, palliative care.", icon: "fas fa-ribbon", dept: "Oncology" }
+  ];
+
+  let currentDoctor = null;
+
+  function renderDoctors(filterText = "") {
+    const grid = document.getElementById("doctorGrid");
+    const filterLower = filterText.toLowerCase();
+    const filtered = doctors.filter(doc => 
+      doc.name.toLowerCase().includes(filterLower) || 
+      doc.specialty.toLowerCase().includes(filterLower) ||
+      doc.dept.toLowerCase().includes(filterLower)
+    );
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem;">No doctors match "${filterText}". Try another keyword.</div>`;
+      return;
+    }
+    grid.innerHTML = filtered.map(doc => `
+      <div class="doctor-card">
+        <div class="doc-img"><i class="${doc.icon}"></i></div>
+        <div class="doc-details">
+          <div class="doc-name">${doc.name}</div>
+          <div class="doc-specialty">${doc.specialty}</div>
+          <div class="doc-bio">${doc.bio}</div>
+          <button class="btn-book" data-doctor='${JSON.stringify(doc)}'>📅 Book Appointment</button>
+        </div>
+      </div>
+    `).join("");
+    // attach event listeners to new buttons
+    document.querySelectorAll(".btn-book").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const docData = JSON.parse(btn.getAttribute("data-doctor"));
+        openModal(docData);
+      });
+    });
+  }
+
+  function openModal(doctor) {
+    currentDoctor = doctor;
+    document.getElementById("selectedDoctorName").value = doctor.name;
+    document.getElementById("appointmentModal").style.display = "flex";
+    document.getElementById("bookingMsg").innerHTML = "";
+    // reset form optional
+    document.getElementById("appointmentForm").reset();
+  }
+
+  // Close modal
+  document.querySelector(".close-modal").addEventListener("click", () => {
+    document.getElementById("appointmentModal").style.display = "none";
+  });
+  window.addEventListener("click", (e) => {
+    const modal = document.getElementById("appointmentModal");
+    if (e.target === modal) modal.style.display = "none";
+  });
+
+  // handle appointment submission
+  const apptForm = document.getElementById("appointmentForm");
+  const bookingMsgDiv = document.getElementById("bookingMsg");
+  apptForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const patient = document.getElementById("patientName").value;
+    const phone = document.getElementById("patientPhone").value;
+    const date = document.getElementById("apptDate").value;
+    const time = document.getElementById("apptTime").value;
+    const doctorName = document.getElementById("selectedDoctorName").value;
+    if (!patient || !phone || !date) {
+      bookingMsgDiv.innerHTML = "⚠️ Please fill all required fields.";
+      return;
+    }
+    bookingMsgDiv.innerHTML = `✅ Appointment booked with ${doctorName} on ${date} at ${time}. We'll call ${phone} to confirm.`;
+    setTimeout(() => {
+      document.getElementById("appointmentModal").style.display = "none";
+      bookingMsgDiv.innerHTML = "";
+    }, 2500);
+    apptForm.reset();
+  });
+
+  // search filter
+  const searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", (e) => renderDoctors(e.target.value));
+
+  // Navigation links to other pages (previous two)
+  function navigateTo(page) {
+    window.location.href = page;
+  }
+  document.getElementById("linkChecker").addEventListener("click", (e) => {
+    e.preventDefault();
+    navigateTo("index.html");      // symptom checker page
+  });
+  document.getElementById("linkAdmission").addEventListener("click", (e) => {
+    e.preventDefault();
+    navigateTo("admission-contact.html");
+  });
+
+  // initial render
+  renderDoctors();// Check login status and update navbar link
+const loggedIn = sessionStorage.getItem('isLoggedIn');
+const navLinksDiv = document.querySelector('.nav-links');
+if (navLinksDiv && !document.getElementById('dynamicAuthLink')) {
+  const authLink = document.createElement('a');
+  if (loggedIn) {
+    authLink.href = 'patient-dashboard.html';
+    authLink.innerHTML = '<i class="fas fa-user-circle"></i> Dashboard';
+  } else {
+    authLink.href = 'login.html';
+    authLink.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+  }
+  authLink.id = 'dynamicAuthLink';
+  navLinksDiv.appendChild(authLink);
+}
+</script>
+</body>
+</html>

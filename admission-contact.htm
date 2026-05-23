@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serenity Hospital | Admission & Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #eef3f7;
+      color: #1a2c3e;
+      line-height: 1.5;
+    }
+    .navbar {
+      background: #ffffffdd;
+      backdrop-filter: blur(12px);
+      background-color: rgba(255,255,255,0.94);
+      box-shadow: 0 6px 20px rgba(0,20,40,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(46,125,109,0.2);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo i {
+      font-size: 2rem;
+      color: #0f6b5e;
+    }
+    .logo h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f6e63, #0a4b41);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #1e4a4a;
+      transition: 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: #0e7c6b;
+      border-bottom: 2px solid #0e7c6b;
+      padding-bottom: 4px;
+    }
+    .hero {
+      background: linear-gradient(120deg, #cbe5e0, #bdd6d1);
+      border-radius: 2rem;
+      padding: 2rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .hero h2 {
+      font-size: 2rem;
+      color: #0b3b35;
+    }
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    @media (max-width: 780px) {
+      .grid-2col {
+        grid-template-columns: 1fr;
+      }
+      .nav-flex {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+    .card {
+      background: white;
+      border-radius: 1.8rem;
+      padding: 1.8rem;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+      border: 1px solid #cde3dd;
+    }
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1.2rem;
+      color: #1f6e63;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .step-list {
+      list-style: none;
+    }
+    .step-list li {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .step-num {
+      background: #1f6e63;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .dept-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #dde9e5;
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 16px;
+      border: 1px solid #cbdde6;
+      border-radius: 1rem;
+      font-family: inherit;
+    }
+    .btn {
+      background: #1f6e63;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .btn:hover {
+      background: #0f5a4f;
+    }
+    footer {
+      background: #1f3e3a;
+      color: #cfe6e1;
+      margin-top: 2.5rem;
+      padding: 2rem 0;
+      border-radius: 2rem 2rem 0 0;
+      text-align: center;
+    }
+    .alert-success {
+      background: #dff0e6;
+      color: #1f6e63;
+      padding: 12px;
+      border-radius: 1rem;
+      margin-top: 1rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container nav-flex">
+    <div class="logo">
+      <i class="fas fa-hospital-user"></i>
+      <h1>Serenity Hospital</h1>
+    </div>
+    <div class="nav-links">
+      <a href="#" id="homeLink">Home (Symptom Checker)</a>
+      <a href="#" class="active">Admission & Contact</a>
+      <a href="#">Services</a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="hero">
+    <h2><i class="fas fa-procedures"></i> Admission Guidance & Contact</h2>
+    <p>Plan your visit, understand our admission process, or ask our team any question. We’re here 24/7.</p>
+  </div>
+
+  <div class="grid-2col">
+    <!-- left column: admission process + departments -->
+    <div>
+      <div class="card">
+        <h3><i class="fas fa-door-open"></i> Step‑by‑step admission</h3>
+        <ul class="step-list">
+          <li><span class="step-num">1</span> <span><strong>Check symptoms first</strong> – Use our <a href="#" id="checkerLink" style="color:#1f6e63;">symptom checker</a> or call our triage nurse.</span></li>
+          <li><span class="step-num">2</span> <span><strong>Get a consultation</strong> – Visit OPD or emergency. Bring ID & insurance card.</span></li>
+          <li><span class="step-num">3</span> <span><strong>Admission desk</strong> – Complete paperwork, choose room category, receive a patient ID.</span></li>
+          <li><span class="step-num">4</span> <span><strong>Pre‑admission tests</strong> – Labs, imaging (if required) before moving to your room.</span></li>
+          <li><span class="step-num">5</span> <span><strong>Treatment & recovery</strong> – Our team ensures round‑the‑clock care.</span></li>
+        </ul>
+      </div>
+
+      <div class="card" style="margin-top: 1.5rem;">
+        <h3><i class="fas fa-building"></i> Key Departments</h3>
+        <div class="dept-item"><span>🏥 Emergency & Trauma</span><span>24/7 open</span></div>
+        <div class="dept-item"><span>🫀 Cardiology</span><span>Dr. Mehta (Mon‑Sat)</span></div>
+        <div class="dept-item"><span>🫁 Pulmonology</span><span>Dr. Kaur (Wed/Fri)</span></div>
+        <div class="dept-item"><span>🧠 Neurology</span><span>Consult by appointment</span></div>
+        <div class="dept-item"><span>🤰 Obstetrics</span><span>24/7 labour ward</span></div>
+      </div>
+    </div>
+
+    <!-- right column: contact form & direct info -->
+    <div>
+      <div class="card">
+        <h3><i class="fas fa-envelope-open-text"></i> Pre‑admission inquiry</h3>
+        <p>Ask about bed availability, insurance, or schedule a callback.</p>
+        <form id="inquiryForm" class="contact-form">
+          <input type="text" id="name" placeholder="Full name" required>
+          <input type="tel" id="phone" placeholder="Phone number" required>
+          <input type="email" id="email" placeholder="Email address">
+          <textarea rows="3" id="message" placeholder="Your question (e.g., admission procedure, insurance, room charges...)"></textarea>
+          <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Send inquiry</button>
+          <div id="formSuccess" class="alert-success">✅ Your message has been received. Our admission desk will reply within 2 hours.</div>
+        </form>
+      </div>
+
+      <div class="card" style="margin-top: 1.5rem;">
+        <h3><i class="fas fa-phone-alt"></i> Direct contacts</h3>
+        <p><i class="fas fa-ambulance"></i> <strong>Emergency:</strong> +91 1800 234 5678 (24/7)</p>
+        <p><i class="fas fa-calendar-alt"></i> <strong>Appointment desk:</strong> +91 98765 43210 (8 AM – 8 PM)</p>
+        <p><i class="fas fa-comment-dots"></i> <strong>WhatsApp support:</strong> +91 99887 66550</p>
+        <hr style="margin: 1rem 0;">
+        <p><i class="fas fa-map-pin"></i> 122 Healing Lane, Wellness City – 560001</p>
+        <p><i class="fas fa-clock"></i> OPD hours: 9 AM – 6 PM (Mon‑Sat) | Emergency open 24/7</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <p><i class="fas fa-copyright"></i> 2025 Serenity Hospital – Compassionate care, smart triage.</p>
+    <p style="margin-top: 0.5rem;"><i class="fas fa-hand-holding-heart"></i> Your health, our priority.</p>
+  </div>
+</footer>
+
+<script>
+  // Handle inquiry form submission (demo)
+  const form = document.getElementById('inquiryForm');
+  const successMsg = document.getElementById('formSuccess');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      successMsg.style.display = 'block';
+      form.reset();
+      setTimeout(() => {
+        successMsg.style.display = 'none';
+      }, 4000);
+    });
+  }
+
+  // Navigation links: point back to symptom checker (previous HTML file)
+  // Since we don't know the exact previous filename, we use relative links.
+  // User should save the first page as "index.html" or "symptom-checker.html"
+  // For simplicity, we'll try both common names or just alert a guide.
+  const homeLink = document.getElementById('homeLink');
+  const checkerLink = document.getElementById('checkerLink');
+  
+  function goToSymptomPage(e) {
+    e.preventDefault();
+    // attempt to open previous page – typical names
+    const possibleNames = ['index.html', 'hospital-symptom-checker.html', 'symptom-checker.html'];
+    let tried = false;
+    for (let name of possibleNames) {
+      // we cannot check existence easily, but we try to navigate.
+      // If the file doesn't exist, browser shows error; we give a friendly message.
+      window.location.href = name;
+      tried = true;
+      break; // try first one
+    }
+    if (!tried) window.location.href = 'index.html';
+    // fallback message: if page doesn't load, user can manually open.
+  }
+  
+  if (homeLink) homeLink.addEventListener('click', goToSymptomPage);
+  if (checkerLink) checkerLink.addEventListener('click', goToSymptomPage);
+  
+  // Also make "Home (Symptom Checker)" active in style// Check login status and update navbar link
+const loggedIn = sessionStorage.getItem('isLoggedIn');
+const navLinksDiv = document.querySelector('.nav-links');
+if (navLinksDiv && !document.getElementById('dynamicAuthLink')) {
+  const authLink = document.createElement('a');
+  if (loggedIn) {
+    authLink.href = 'patient-dashboard.html';
+    authLink.innerHTML = '<i class="fas fa-user-circle"></i> Dashboard';
+  } else {
+    authLink.href = 'login.html';
+    authLink.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+  }
+  authLink.id = 'dynamicAuthLink';
+  navLinksDiv.appendChild(authLink);
+}, but not needed.
+</script>
+</body>
+</html>

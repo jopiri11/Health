@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serenity Hospital | Patient Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #e9f0f9 0%, #dce5f2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-container {
+      max-width: 450px;
+      width: 90%;
+      background: white;
+      border-radius: 2rem;
+      box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+      overflow: hidden;
+      padding: 2rem;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .logo i {
+      font-size: 3rem;
+      color: #1f6e63;
+    }
+    .logo h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, #1f6e63, #0a4b41);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #1e4a4a;
+    }
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 1rem;
+      border: 1px solid #cbdde6;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      background: #1f6e63;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 2rem;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    button:hover {
+      background: #0f5a4f;
+    }
+    .error {
+      background: #ffe6e5;
+      color: #c0392b;
+      padding: 0.8rem;
+      border-radius: 1rem;
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .demo-info {
+      background: #ecf7f2;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .back-link a {
+      color: #1f6e63;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+<div class="login-container">
+  <div class="logo">
+    <i class="fas fa-hospital-user"></i>
+    <h1>Serenity Hospital</h1>
+  </div>
+  <h2>Patient Portal Login</h2>
+  <form id="loginForm">
+    <div class="input-group">
+      <label>Email address</label>
+      <input type="email" id="email" placeholder="patient@serenity.com" required>
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="••••••" required>
+    </div>
+    <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+    <div id="errorMsg" class="error"></div>
+  </form>
+  <div class="demo-info">
+    <i class="fas fa-flask"></i> Demo credentials:<br>
+    <strong>Email:</strong> patient@serenity.com<br>
+    <strong>Password:</strong> serenity123
+  </div>
+  <div class="back-link">
+    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to homepage</a>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('loginForm');
+  const errorDiv = document.getElementById('errorMsg');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    // Demo authentication
+    if (email === 'patient@serenity.com' && password === 'serenity123') {
+      // Store login state
+      sessionStorage.setItem('isLoggedIn', 'true');
+      sessionStorage.setItem('userEmail', email);
+      sessionStorage.setItem('userName', 'Sarah Johnson'); // demo name
+      // Redirect to dashboard
+      window.location.href = 'patient-dashboard.html';
+    } else {
+      errorDiv.style.display = 'block';
+      errorDiv.innerText = '❌ Invalid email or password. Use demo credentials shown below.';
+    }
+  });
+</script>
+</body>
+</html>
